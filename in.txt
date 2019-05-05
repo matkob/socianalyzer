@@ -1,0 +1,8 @@
+jas grzes 2
+malgosia ania 4
+malgosia grzes 3
+grzes ania 9
+michal blazej 2
+natalia justyna 4
+natalia blazej 3
+blazej justyna 9
