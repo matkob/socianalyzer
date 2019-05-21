@@ -3,9 +3,9 @@ package com.mkobiers.socianalyzer.model;
 import java.util.Objects;
 
 public class MatrixAddress {
-    private int address;
-    private String person1;
-    private String person2;
+    private final int address;
+    private final String person1;
+    private final String person2;
 
     MatrixAddress(String person1, String person2) {
         if (person1.compareTo(person2) >= 0) {

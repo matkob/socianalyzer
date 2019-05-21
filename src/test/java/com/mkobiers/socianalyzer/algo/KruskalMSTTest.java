@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-public class FloydWarshallTest {
+public class KruskalMSTTest {
 
     @Test
     public void basicTest() {
@@ -15,6 +15,11 @@ public class FloydWarshallTest {
         FloydWarshall.calcShortestPaths(input);
         List<Matrix> integrals = FloydWarshall.extractIntegralMatrices(input);
         integrals.forEach(FloydWarshall::calcSeparationRate);
-        System.out.println(integrals);
+        integrals.forEach(KruskalMST::calcMST);
+        integrals.forEach(matrix -> {
+            System.out.println(matrix.getSeparationRate());
+            System.out.println(matrix.getMST());
+        });
     }
+
 }

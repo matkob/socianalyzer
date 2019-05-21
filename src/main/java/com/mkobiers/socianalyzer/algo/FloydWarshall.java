@@ -11,23 +11,33 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class FloydWarshall {
 
-    public static void analyze(Matrix input) {
+    public static void calcShortestPaths(Matrix input) {
         Set<String> vertices = input.getVertices();
         vertices.forEach(v1 -> {
             vertices.forEach(v2 -> {
                 vertices.forEach(v3 -> {
-                    int newFamiliarity = input.get(v2, v1).getFamiliarity() + input.get(v1, v3).getFamiliarity();
-                    if (newFamiliarity >= 0 && newFamiliarity < input.get(v2, v3).getFamiliarity()) {
+                    int newPath = input.get(v2, v1).getPath() + input.get(v1, v3).getPath();
+                    if (newPath >= 0 && newPath < input.get(v2, v3).getPath()) {
                         MatrixCell newConn = input.get(v2, v3);
-                        newConn.setFamiliarity(newFamiliarity);
-                        input.add(v2, v3, newConn);
+                        newConn.setPath(newPath);
+                        input.put(v2, v3, newConn);
                     }
                 });
             });
         });
     }
 
-    public static List<Matrix> getIntegralMatrices(Matrix input) {
+    public static void calcSeparationRate(Matrix matrix) {
+        AtomicInteger rate = new AtomicInteger(-1);
+        matrix.forEach((matrixAddress, matrixCell) -> {
+            if (matrixCell.getPath() > rate.get()) {
+                rate.set(matrixCell.getPath());
+            }
+        });
+        matrix.setSeparationRate(rate.get());
+    }
+
+    public static List<Matrix> extractIntegralMatrices(Matrix input) {
         Set<String> vertices = input.getVertices();
         Set<String> checkedVertices = new HashSet<>();
         List<Matrix> matrices = new ArrayList<>();
@@ -45,26 +55,14 @@ public class FloydWarshall {
     private static void analyzeConnections(Matrix input, Matrix m, Set<String> checked, String vertice) {
         checked.add(vertice);
         input.getVertices().forEach(v -> {
-            if (!checked.contains(v) && input.get(vertice, v).getFamiliarity() != Integer.MAX_VALUE) {
-                m.add(vertice, v, input.get(vertice, v));
+            if (!checked.contains(v) && input.get(vertice, v).getPath() != Integer.MAX_VALUE) {
+                m.put(vertice, v, input.get(vertice, v));
             }
         });
         input.getVertices().forEach(v -> {
-            if (!checked.contains(v) && input.get(vertice, v).getFamiliarity() != Integer.MAX_VALUE) {
+            if (!checked.contains(v) && input.get(vertice, v).getPath() != Integer.MAX_VALUE) {
                 analyzeConnections(input, m, checked, v);
             }
-        });
-    }
-
-    public static void calcSeparationRate(List<Matrix> matrices) {
-        matrices.forEach(m -> {
-            AtomicInteger rate = new AtomicInteger(-1);
-            m.forEach((matrixAddress, matrixCell) -> {
-                if (matrixCell.getFamiliarity() > rate.get()) {
-                    rate.set(matrixCell.getFamiliarity());
-                }
-            });
-            m.setSeparationRate(rate.get());
         });
     }
 }

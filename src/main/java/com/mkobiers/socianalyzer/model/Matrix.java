@@ -1,22 +1,21 @@
 package com.mkobiers.socianalyzer.model;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.function.BiConsumer;
+import java.util.stream.Collectors;
 
 public class Matrix {
     private Map<MatrixAddress, MatrixCell> matrix;
     private Set<String> vertices;
     private int separationRate;
+    private int mst;
 
     public Matrix() {
         matrix = new HashMap<>();
         vertices = new HashSet<>();
     }
 
-    public MatrixCell add(String person1, String person2, MatrixCell entry) {
+    public MatrixCell put(String person1, String person2, MatrixCell entry) {
         MatrixAddress address = new MatrixAddress(person1, person2);
         vertices.add(person1);
         vertices.add(person2);
@@ -35,6 +34,10 @@ public class Matrix {
         return vertices;
     }
 
+    public List<MatrixAddress> getEdges() {
+        return matrix.entrySet().stream().filter(entry -> entry.getValue().isFamiliar()).map(Map.Entry::getKey).collect(Collectors.toList());
+    }
+
     public void forEach(BiConsumer<? super MatrixAddress, ? super MatrixCell> func) {
         matrix.forEach(func);
     }
@@ -45,5 +48,13 @@ public class Matrix {
 
     public void setSeparationRate(int separationRate) {
         this.separationRate = separationRate;
+    }
+
+    public int getMST() {
+        return mst;
+    }
+
+    public void setMST(int mst) {
+        this.mst = mst;
     }
 }

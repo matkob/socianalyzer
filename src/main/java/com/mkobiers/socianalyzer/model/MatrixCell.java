@@ -2,45 +2,50 @@ package com.mkobiers.socianalyzer.model;
 
 public class MatrixCell {
 
-    private int days;
-    private int familiarity;
+    private final int days;
+    private final boolean familiar;
+    private int path;
 
     public MatrixCell() {
-        this.days = -1;
-        this.familiarity = Integer.MAX_VALUE;
+        this.days = 0;
+        this.familiar = false;
+        this.path = Integer.MAX_VALUE;
     }
 
     public MatrixCell(int days) {
         this.days = days;
-        this.familiarity = 1;
+        this.familiar = true;
+        this.path = 1;
     }
 
-    public MatrixCell(int days, int familiarity) {
+    public MatrixCell(int days, int path) {
         this.days = days;
-        this.familiarity = familiarity;
+        this.familiar = true;
+        this.path = path;
     }
 
     public int getDays() {
         return days;
     }
 
-    public void setDays(int days) {
-        this.days = days;
+    public boolean isFamiliar() {
+        return familiar;
     }
 
-    public int getFamiliarity() {
-        return familiarity;
+    public int getPath() {
+        return path;
     }
 
-    public void setFamiliarity(int familiarity) {
-        this.familiarity = familiarity;
+    public void setPath(int path) {
+        this.path = path;
     }
 
     @Override
     public String toString() {
         return "MatrixCell{" +
                 "days=" + days +
-                ", familiarity=" + familiarity +
+                ", familiar=" + familiar +
+                ", path=" + path +
                 '}';
     }
 }

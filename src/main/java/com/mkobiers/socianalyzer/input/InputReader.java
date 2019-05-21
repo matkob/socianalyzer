@@ -24,7 +24,7 @@ public class InputReader {
                 String[] data = line.split(" ");
                 if (data.length == 3) {
                     int days = Integer.valueOf(data[2]);
-                    matrix.add(data[0], data[1], new MatrixCell(days));
+                    matrix.put(data[0], data[1], new MatrixCell(days));
                 }
             }
         } catch (IOException e) {
