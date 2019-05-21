@@ -22,17 +22,18 @@ public class OutputWriter {
             for (Matrix matrix : matrices) {
                 StringBuilder vertices = new StringBuilder();
                 matrix.getVertices().forEach(v -> vertices.append(v).append(" "));
-                printWriter.write("Network of " + vertices.toString() + "\n");
-                printWriter.write("Separation rate: " + matrix.getSeparationRate() + "\n");
-                printWriter.write("MST: " + matrix.getMST() + "\n\n");
+                printWriter.println("Network of " + vertices.toString());
+                printWriter.println("Separation rate: " + matrix.getSeparationRate());
+                printWriter.println("MST: " + matrix.getMST() + "\n");
                 if (verbose) {
                     logger.info("Network of " + vertices.toString());
                     logger.info("Separation rate: " + matrix.getSeparationRate());
-                    logger.info("MST: " + matrix.getMST());
+                    logger.info("MST: " + matrix.getMST() + "\n");
                 }
             }
         } catch (IOException e) {
             logger.error("error creating output file \"{}\"", outFile);
+            System.exit(1);
         }
     }
 }

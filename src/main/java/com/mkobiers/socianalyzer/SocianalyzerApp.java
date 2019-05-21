@@ -3,6 +3,7 @@ package com.mkobiers.socianalyzer;
 import com.mkobiers.socianalyzer.algo.FloydWarshall;
 import com.mkobiers.socianalyzer.io.InputReader;
 import com.mkobiers.socianalyzer.io.OutputWriter;
+import com.mkobiers.socianalyzer.logic.Generator;
 import com.mkobiers.socianalyzer.model.Matrix;
 import org.apache.commons.cli.*;
 import org.slf4j.Logger;
@@ -20,7 +21,8 @@ public class SocianalyzerApp {
         options.addOption(new Option("m", "mode", true, "running mode <input | auto | full>"));
         options.addOption(new Option("i", "input", true, "input file"));
         options.addOption(new Option("o", "output", true, "output file"));
-        options.addOption(new Option("d", "difficulty", true, "difficulty of auto-generated case"));
+        options.addOption(new Option("n", "nodes", true, "number of nodes in network"));
+        options.addOption(new Option("d", "difficulty", true, "difficulty of auto-generated case [0-100]"));
         options.addOption(new Option("h", "help", false, "displays this message"));
 
         CommandLineParser parser = new DefaultParser();
@@ -63,7 +65,7 @@ public class SocianalyzerApp {
 
 
         if (!line.hasOption("o")) {
-            logger.info("using default output file \"out.txt\"");
+            logger.info("using default output file: \"out.txt\"");
             outFile = "out.txt";
         } else {
             outFile = line.getOptionValue("o");
@@ -80,7 +82,31 @@ public class SocianalyzerApp {
     }
 
     private static void runAutoMode(CommandLine line) {
+        int difficulty;
+        int nodes;
+        String inFile;
 
+        if (!line.hasOption("i")) {
+            logger.error("no input specified");
+            displayHelpAndExit();
+        }
+        inFile = line.getOptionValue("i");
+
+        if (!line.hasOption("d")) {
+            logger.info("using default difficulty: 60");
+            difficulty = 60;
+        } else {
+            difficulty = Integer.valueOf(line.getOptionValue("d"));
+        }
+
+        if (!line.hasOption("n")) {
+            logger.info("using default number of nodes: 100");
+            nodes = 100;
+        } else {
+            nodes = Integer.valueOf(line.getOptionValue("n"));
+        }
+
+        Generator.generateTestData(difficulty, nodes, inFile);
     }
 
     private static void runFullMode(CommandLine line) {
