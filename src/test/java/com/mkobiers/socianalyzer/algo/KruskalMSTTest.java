@@ -1,6 +1,6 @@
 package com.mkobiers.socianalyzer.algo;
 
-import com.mkobiers.socianalyzer.input.InputReader;
+import com.mkobiers.socianalyzer.io.InputReader;
 import com.mkobiers.socianalyzer.model.Matrix;
 import org.junit.jupiter.api.Test;
 
@@ -10,7 +10,7 @@ public class KruskalMSTTest {
 
     @Test
     public void basicTest() {
-        InputReader reader = new InputReader();
+        InputReader reader = new InputReader("in.txt");
         Matrix input = reader.readInputData();
         FloydWarshall.calcShortestPaths(input);
         List<Matrix> integrals = FloydWarshall.extractIntegralMatrices(input);

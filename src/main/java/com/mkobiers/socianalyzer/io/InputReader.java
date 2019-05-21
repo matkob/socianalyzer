@@ -1,4 +1,4 @@
-package com.mkobiers.socianalyzer.input;
+package com.mkobiers.socianalyzer.io;
 
 import com.mkobiers.socianalyzer.model.Matrix;
 import com.mkobiers.socianalyzer.model.MatrixCell;
@@ -11,16 +11,19 @@ import java.io.IOException;
 
 public class InputReader {
 
-    private Logger logger = LoggerFactory.getLogger(InputReader.class);
-    private final String PATH = "in.txt";
+    private final static Logger logger = LoggerFactory.getLogger(InputReader.class);
+    private String inFile;
+
+    public InputReader(String path) {
+        inFile = path;
+    }
 
     public Matrix readInputData(){
         Matrix matrix = new Matrix();
         try {
-            BufferedReader reader = new BufferedReader(new FileReader(PATH));
+            BufferedReader reader = new BufferedReader(new FileReader(inFile));
             String line;
             while ((line = reader.readLine()) != null) {
-                logger.info(line);
                 String[] data = line.split(" ");
                 if (data.length == 3) {
                     int days = Integer.valueOf(data[2]);
