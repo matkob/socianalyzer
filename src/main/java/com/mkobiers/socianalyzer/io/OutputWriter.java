@@ -30,9 +30,9 @@ public class OutputWriter {
                 printWriter.println("Separation rate: " + matrix.getSeparationRate());
                 printWriter.println("MST: " + matrix.getMST() + "\n");
                 if (verbose) {
-                    logger.info("Network of " + matrix.getNodes().size() + " people");
-                    logger.info("Separation rate: " + matrix.getSeparationRate());
-                    logger.info("MST: " + matrix.getMST() + "\n");
+                    logger.info("Network of {} people", matrix.getNodes().size());
+                    logger.info("Separation rate: {}", matrix.getSeparationRate());
+                    logger.info("MST: {}\n", matrix.getMST());
                 }
             }
         } catch (IOException e) {
