@@ -6,6 +6,12 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
+/**
+ * Mateusz Kobierski
+ *
+ * Problem nr 14 - Stopien separacji w sieci spolecznosciowej
+ */
+
 public class FloydWarshallTest {
 
     @Test

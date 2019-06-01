@@ -12,6 +12,12 @@ import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
+/**
+ * Mateusz Kobierski
+ *
+ * Problem nr 14 - Stopien separacji w sieci spolecznosciowej
+ */
+
 public class SocianalyzerApp {
 
     private final static Logger logger = LoggerFactory.getLogger(SocianalyzerApp.class);

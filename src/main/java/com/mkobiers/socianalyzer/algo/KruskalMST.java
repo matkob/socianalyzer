@@ -8,6 +8,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Mateusz Kobierski
+ *
+ * Problem nr 14 - Stopien separacji w sieci spolecznosciowej
+ */
+
 public class KruskalMST {
 
     public static void calcMST(Matrix matrix) {

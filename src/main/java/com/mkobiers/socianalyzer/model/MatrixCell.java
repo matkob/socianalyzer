@@ -1,5 +1,11 @@
 package com.mkobiers.socianalyzer.model;
 
+/**
+ * Mateusz Kobierski
+ *
+ * Problem nr 14 - Stopien separacji w sieci spolecznosciowej
+ */
+
 public class MatrixCell {
 
     private final int days;

@@ -8,6 +8,12 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
+/**
+ * Mateusz Kobierski
+ *
+ * Problem nr 14 - Stopien separacji w sieci spolecznosciowej
+ */
+
 public class OutputWriter {
 
     private final static Logger logger = LoggerFactory.getLogger(OutputWriter.class);

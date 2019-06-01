@@ -4,6 +4,12 @@ import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
 
+/**
+ * Mateusz Kobierski
+ *
+ * Problem nr 14 - Stopien separacji w sieci spolecznosciowej
+ */
+
 public class Matrix {
     private Map<MatrixAddress, MatrixCell> matrix;
     private Set<String> nodes;
