@@ -6,19 +6,19 @@ import java.util.stream.Collectors;
 
 public class Matrix {
     private Map<MatrixAddress, MatrixCell> matrix;
-    private Set<String> vertices;
+    private Set<String> nodes;
     private int separationRate;
     private int mst;
 
     public Matrix() {
         matrix = new HashMap<>();
-        vertices = new HashSet<>();
+        nodes = new HashSet<>();
     }
 
     public MatrixCell put(String person1, String person2, MatrixCell entry) {
         MatrixAddress address = new MatrixAddress(person1, person2);
-        vertices.add(person1);
-        vertices.add(person2);
+        nodes.add(person1);
+        nodes.add(person2);
         return matrix.put(address, entry);
     }
 
@@ -30,8 +30,8 @@ public class Matrix {
         return matrix.getOrDefault(address, new MatrixCell());
     }
 
-    public Set<String> getVertices() {
-        return vertices;
+    public Set<String> getNodes() {
+        return nodes;
     }
 
     public List<MatrixAddress> getEdges() {

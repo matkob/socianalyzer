@@ -12,15 +12,15 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class FloydWarshall {
 
     public static void calcShortestPaths(Matrix input) {
-        Set<String> vertices = input.getVertices();
-        vertices.forEach(v1 -> {
-            vertices.forEach(v2 -> {
-                vertices.forEach(v3 -> {
-                    int newPath = input.get(v2, v1).getPath() + input.get(v1, v3).getPath();
-                    if (newPath >= 0 && newPath < input.get(v2, v3).getPath()) {
-                        MatrixCell newConn = input.get(v2, v3);
+        Set<String> nodes = input.getNodes();
+        nodes.forEach(n1 -> {
+            nodes.forEach(n2 -> {
+                nodes.forEach(n3 -> {
+                    int newPath = input.get(n2, n1).getPath() + input.get(n1, n3).getPath();
+                    if (newPath >= 0 && newPath < input.get(n2, n3).getPath()) {
+                        MatrixCell newConn = input.get(n2, n3);
                         newConn.setPath(newPath);
-                        input.put(v2, v3, newConn);
+                        input.put(n2, n3, newConn);
                     }
                 });
             });
@@ -38,13 +38,13 @@ public class FloydWarshall {
     }
 
     public static List<Matrix> extractIntegralMatrices(Matrix input) {
-        Set<String> vertices = input.getVertices();
-        Set<String> checkedVertices = new HashSet<>();
+        Set<String> nodes = input.getNodes();
+        Set<String> visited = new HashSet<>();
         List<Matrix> matrices = new ArrayList<>();
-        vertices.forEach(v1 -> {
-            if (!checkedVertices.contains(v1)) {
+        nodes.forEach(v1 -> {
+            if (!visited.contains(v1)) {
                 Matrix m = new Matrix();
-                analyzeConnections(input, m, checkedVertices, v1);
+                analyzeConnections(input, m, visited, v1);
                 matrices.add(m);
 
             }
@@ -52,18 +52,18 @@ public class FloydWarshall {
         return matrices;
     }
 
-    private static void analyzeConnections(Matrix input, Matrix m, Set<String> checked, String vertice) {
-        Set<String> vertices = input.getVertices();
-        checked.add(vertice);
+    private static void analyzeConnections(Matrix input, Matrix m, Set<String> checked, String node) {
+        Set<String> nodes = input.getNodes();
+        checked.add(node);
 
-        vertices.forEach(v -> {
-            if (!checked.contains(v) && input.get(vertice, v).getPath() != Integer.MAX_VALUE) {
-                m.put(vertice, v, input.get(vertice, v));
+        nodes.forEach(n -> {
+            if (!checked.contains(n) && input.get(node, n).getPath() != Integer.MAX_VALUE) {
+                m.put(node, n, input.get(node, n));
             }
         });
-        vertices.forEach(v -> {
-            if (!checked.contains(v) && input.get(vertice, v).getPath() != Integer.MAX_VALUE) {
-                analyzeConnections(input, m, checked, v);
+        nodes.forEach(n -> {
+            if (!checked.contains(n) && input.get(node, n).getPath() != Integer.MAX_VALUE) {
+                analyzeConnections(input, m, checked, n);
             }
         });
     }

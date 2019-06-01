@@ -22,7 +22,7 @@ public class SocianalyzerApp {
         options.addOption(new Option("m", "mode", true, "running mode <input | auto | full>"));
         options.addOption(new Option("i", "input", true, "input file"));
         options.addOption(new Option("o", "output", true, "output file"));
-        options.addOption(new Option("n", "nodes", true, "number of nodes in network"));
+        options.addOption(new Option("p", "people", true, "number of people in network"));
         options.addOption(new Option("d", "difficulty", true, "difficulty of auto-generated case [0-100]"));
         options.addOption(new Option("h", "help", false, "displays this message"));
 
@@ -103,12 +103,12 @@ public class SocianalyzerApp {
             logger.info("using difficulty: {}", difficulty);
         }
 
-        if (!line.hasOption("n")) {
-            logger.info("using default number of nodes: 100");
+        if (!line.hasOption("p")) {
+            logger.info("using default number of people: 100");
             nodes = 100;
         } else {
-            nodes = Integer.valueOf(line.getOptionValue("n"));
-            logger.info("using number of nodes: {}", nodes);
+            nodes = Integer.valueOf(line.getOptionValue("p"));
+            logger.info("using number of people: {}", nodes);
         }
 
         return Generator.generateTestData(difficulty, nodes, inFile);
@@ -141,12 +141,12 @@ public class SocianalyzerApp {
             logger.info("using difficulty: {}", difficulty);
         }
 
-        if (!line.hasOption("n")) {
-            logger.info("using default number of nodes: 100");
+        if (!line.hasOption("p")) {
+            logger.info("using default number of people: 100");
             nodes = 100;
         } else {
-            nodes = Integer.valueOf(line.getOptionValue("n"));
-            logger.info("using number of nodes: {}", nodes);
+            nodes = Integer.valueOf(line.getOptionValue("p"));
+            logger.info("using number of people: {}", nodes);
         }
 
         Matrix generated = Generator.generateTestData(difficulty, nodes, inFile);

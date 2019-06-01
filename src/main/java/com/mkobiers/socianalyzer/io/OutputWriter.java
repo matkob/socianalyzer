@@ -20,11 +20,11 @@ public class OutputWriter {
     public void writeResults(List<Matrix> matrices, boolean verbose) {
         try (PrintWriter printWriter = new PrintWriter(outFile)) {
             for (Matrix matrix : matrices) {
-                printWriter.println("Network of " + matrix.getVertices().size() + " vertices");
+                printWriter.println("Network of " + matrix.getNodes().size() + " people");
                 printWriter.println("Separation rate: " + matrix.getSeparationRate());
                 printWriter.println("MST: " + matrix.getMST() + "\n");
                 if (verbose) {
-                    logger.info("Network of " + matrix.getVertices().size() + " vertices");
+                    logger.info("Network of " + matrix.getNodes().size() + " people");
                     logger.info("Separation rate: " + matrix.getSeparationRate());
                     logger.info("MST: " + matrix.getMST() + "\n");
                 }
