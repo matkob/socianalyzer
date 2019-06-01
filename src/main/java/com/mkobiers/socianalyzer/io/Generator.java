@@ -1,4 +1,4 @@
-package com.mkobiers.socianalyzer.logic;
+package com.mkobiers.socianalyzer.io;
 
 import com.mkobiers.socianalyzer.model.Matrix;
 import com.mkobiers.socianalyzer.model.MatrixCell;

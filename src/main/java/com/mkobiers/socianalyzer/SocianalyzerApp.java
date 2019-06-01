@@ -2,18 +2,17 @@ package com.mkobiers.socianalyzer;
 
 import com.mkobiers.socianalyzer.algo.FloydWarshall;
 import com.mkobiers.socianalyzer.algo.KruskalMST;
+import com.mkobiers.socianalyzer.io.Generator;
 import com.mkobiers.socianalyzer.io.InputReader;
 import com.mkobiers.socianalyzer.io.OutputWriter;
-import com.mkobiers.socianalyzer.logic.Generator;
 import com.mkobiers.socianalyzer.model.Matrix;
 import org.apache.commons.cli.*;
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 /**
  * Mateusz Kobierski
@@ -118,7 +117,7 @@ public class SocianalyzerApp {
         } else {
             difficulty = Integer.valueOf(line.getOptionValue("d"));
             if (difficulty > 100 || difficulty < 0) {
-                logger.error("difficulty not within bounds {}", difficulty);
+                logger.error("difficulty not within bounds");
                 displayHelpAndExit();
             }
             logger.info("using difficulty: {}", difficulty);
@@ -130,7 +129,7 @@ public class SocianalyzerApp {
         } else {
             nodes = Integer.valueOf(line.getOptionValue("p"));
             if (nodes < 2) {
-                logger.error("network must have at least 2 members! {}", nodes);
+                logger.error("network must have at least 2 members!");
                 displayHelpAndExit();
             }
             logger.info("using number of people: {}", nodes);
@@ -172,30 +171,30 @@ public class SocianalyzerApp {
         } else {
             difficulty = Integer.valueOf(line.getOptionValue("d"));
             if (difficulty > 100 || difficulty < 0) {
-                logger.error("difficulty not within bounds {}", difficulty);
+                logger.error("difficulty not within bounds");
                 displayHelpAndExit();
             }
             logger.info("using difficulty: {}", difficulty);
         }
 
         if (!line.hasOption("p")) {
-            logger.info("using default number of people: 100");
-            nodes = 100;
+            logger.info("using default number of people: 150");
+            nodes = 150;
         } else {
             nodes = Integer.valueOf(line.getOptionValue("p"));
-            if (nodes < 2) {
-                logger.error("network must have at least 2 members! {}", nodes);
+            if (nodes < 100) {
+                logger.error("in testing mode, network must have at least 100 members!");
                 displayHelpAndExit();
             }
             logger.info("using number of people: {}", nodes);
         }
 
 
-        Map<Integer, Long> times = new HashMap<>();
+        List<Pair<Integer, Long>> times = new ArrayList<>();
         warmUp();
 
         OutputWriter writer = new OutputWriter(outFile);
-        for (int i = 1; i <= nodes; i++) {
+        for (int i = nodes - 50; i <= nodes; i++) {
             logger.info("preparing tests for {} people", i);
             Matrix generated = Generator.generateTestData(difficulty, i, inFile);
 
@@ -206,11 +205,11 @@ public class SocianalyzerApp {
             integrals.forEach(KruskalMST::calcMST);
             long end = System.currentTimeMillis();
 
-            times.put(i, end - start);
+            times.add(new ImmutablePair<>(i, end - start));
             writer.writeResults(integrals, true);
         }
 
-        System.out.println(times);
+        writer.writeTimeMeasurements(times);
 
     }
 

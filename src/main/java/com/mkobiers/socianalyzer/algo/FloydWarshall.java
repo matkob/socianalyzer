@@ -52,7 +52,6 @@ public class FloydWarshall {
                 Matrix m = new Matrix();
                 analyzeConnections(input, m, visited, v1);
                 matrices.add(m);
-
             }
         });
         return matrices;
