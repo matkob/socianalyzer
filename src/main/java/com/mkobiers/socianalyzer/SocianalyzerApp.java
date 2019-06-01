@@ -116,7 +116,7 @@ public class SocianalyzerApp {
             difficulty = 60;
         } else {
             difficulty = Integer.valueOf(line.getOptionValue("d"));
-            if (difficulty > 100 || difficulty < 0) {
+            if (difficulty > 100 || difficulty < 1) {
                 logger.error("difficulty not within bounds");
                 displayHelpAndExit();
             }
@@ -170,7 +170,7 @@ public class SocianalyzerApp {
             difficulty = 60;
         } else {
             difficulty = Integer.valueOf(line.getOptionValue("d"));
-            if (difficulty > 100 || difficulty < 0) {
+            if (difficulty > 100 || difficulty < 1) {
                 logger.error("difficulty not within bounds");
                 displayHelpAndExit();
             }
