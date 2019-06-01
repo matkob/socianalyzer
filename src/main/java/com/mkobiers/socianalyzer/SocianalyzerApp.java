@@ -210,7 +210,6 @@ public class SocianalyzerApp {
         }
 
         writer.writeTimeMeasurements(times);
-
     }
 
     private static void displayHelpAndExit() {

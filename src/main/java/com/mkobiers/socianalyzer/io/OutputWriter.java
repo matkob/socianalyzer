@@ -52,9 +52,16 @@ public class OutputWriter {
         long medianPractical = times.get(medianIndex).getRight();
         long medianTheoretical = bigOFunc.apply(times.get(medianIndex).getLeft());
 
-        times.forEach(time -> {
-            logger.info("{}    {}    {}", time.getLeft(), time.getRight(), calcAccuracy(time.getRight(), time.getLeft(), medianPractical, medianTheoretical));
-        });
+        try (PrintWriter printWriter = new PrintWriter(outFile)) {
+            times.forEach(time -> {
+                printWriter.println(time.getLeft() + "    " + time.getRight() + "    " + calcAccuracy(time.getRight(), time.getLeft(), medianPractical, medianTheoretical));
+                logger.info("{}    {}    {}", time.getLeft(), time.getRight(), calcAccuracy(time.getRight(), time.getLeft(), medianPractical, medianTheoretical));
+            });
+        } catch (IOException e) {
+            logger.error("error creating output file \"{}\"", outFile);
+            System.exit(1);
+        }
+
     }
 
     private double calcAccuracy(long actual, int n, long medianPractical, long medianTheoretical) {
