@@ -53,13 +53,15 @@ public class FloydWarshall {
     }
 
     private static void analyzeConnections(Matrix input, Matrix m, Set<String> checked, String vertice) {
+        Set<String> vertices = input.getVertices();
         checked.add(vertice);
-        input.getVertices().forEach(v -> {
+
+        vertices.forEach(v -> {
             if (!checked.contains(v) && input.get(vertice, v).getPath() != Integer.MAX_VALUE) {
                 m.put(vertice, v, input.get(vertice, v));
             }
         });
-        input.getVertices().forEach(v -> {
+        vertices.forEach(v -> {
             if (!checked.contains(v) && input.get(vertice, v).getPath() != Integer.MAX_VALUE) {
                 analyzeConnections(input, m, checked, v);
             }

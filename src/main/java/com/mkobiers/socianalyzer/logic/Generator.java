@@ -13,25 +13,26 @@ public class Generator {
 
     private final static Logger logger = LoggerFactory.getLogger(Generator.class);
 
-    public static void generateTestData(int difficulty, int nodes, String file) {
+    public static Matrix generateTestData(int difficulty, int nodes, String file) {
         Matrix generated = new Matrix();
         Random rnd = new Random();
-        for (int i = 0; i < nodes; i++) {
-            for (int j = 0; j < i; j++) {
-                int days = rnd.nextInt()%100;
-                MatrixCell cell = new MatrixCell(days > 0 ? days : -days+1);
-                generated.put(String.valueOf(i), String.valueOf(j), cell);
-            }
-        }
 
+        double diffRate = (double) difficulty / 100;
         try (PrintWriter writer = new PrintWriter(file)) {
-            generated.forEach(((matrixAddress, matrixCell) -> {
-                writer.println(matrixAddress.getPerson1() + " " + matrixAddress.getPerson2() + " " + matrixCell.getDays());
-            }));
-
+            for (int i = 0; i < nodes; i++) {
+                for (int j = 0; j < i; j++) {
+                    if (rnd.nextDouble() % 1 < diffRate) {
+                        int days = rnd.nextInt() % 100;
+                        MatrixCell cell = new MatrixCell(days > 0 ? days : -days + 1);
+                        generated.put("node" + i, "node" + j, cell);
+                        writer.println("node" + i + " " + "node" + j + " " + cell.getDays());
+                    }
+                }
+            }
         } catch (IOException e) {
             logger.error("error creating output file \"{}\"", file);
             System.exit(1);
         }
+        return generated;
     }
 }

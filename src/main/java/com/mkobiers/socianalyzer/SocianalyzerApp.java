@@ -1,6 +1,7 @@
 package com.mkobiers.socianalyzer;
 
 import com.mkobiers.socianalyzer.algo.FloydWarshall;
+import com.mkobiers.socianalyzer.algo.KruskalMST;
 import com.mkobiers.socianalyzer.io.InputReader;
 import com.mkobiers.socianalyzer.io.OutputWriter;
 import com.mkobiers.socianalyzer.logic.Generator;
@@ -69,6 +70,7 @@ public class SocianalyzerApp {
             outFile = "out.txt";
         } else {
             outFile = line.getOptionValue("o");
+            logger.info("using output file: {}", outFile);
         }
         InputReader reader = new InputReader(inFile);
         OutputWriter writer = new OutputWriter(outFile);
@@ -77,11 +79,12 @@ public class SocianalyzerApp {
         FloydWarshall.calcShortestPaths(input);
         List<Matrix> integrals = FloydWarshall.extractIntegralMatrices(input);
         integrals.forEach(FloydWarshall::calcSeparationRate);
+        integrals.forEach(KruskalMST::calcMST);
 
         writer.writeResults(integrals, true);
     }
 
-    private static void runAutoMode(CommandLine line) {
+    private static Matrix runAutoMode(CommandLine line) {
         int difficulty;
         int nodes;
         String inFile;
@@ -97,6 +100,7 @@ public class SocianalyzerApp {
             difficulty = 60;
         } else {
             difficulty = Integer.valueOf(line.getOptionValue("d"));
+            logger.info("using difficulty: {}", difficulty);
         }
 
         if (!line.hasOption("n")) {
@@ -104,13 +108,56 @@ public class SocianalyzerApp {
             nodes = 100;
         } else {
             nodes = Integer.valueOf(line.getOptionValue("n"));
+            logger.info("using number of nodes: {}", nodes);
         }
 
-        Generator.generateTestData(difficulty, nodes, inFile);
+        return Generator.generateTestData(difficulty, nodes, inFile);
     }
 
     private static void runFullMode(CommandLine line) {
+        int difficulty;
+        int nodes;
+        String inFile;
+        String outFile;
 
+        if (!line.hasOption("i")) {
+            logger.error("no input specified");
+            displayHelpAndExit();
+        }
+        inFile = line.getOptionValue("i");
+
+        if (!line.hasOption("o")) {
+            logger.info("using default output file: \"out.txt\"");
+            outFile = "out.txt";
+        } else {
+            outFile = line.getOptionValue("o");
+            logger.info("using output file: {}", outFile);
+        }
+        if (!line.hasOption("d")) {
+            logger.info("using default difficulty: 60");
+            difficulty = 60;
+        } else {
+            difficulty = Integer.valueOf(line.getOptionValue("d"));
+            logger.info("using difficulty: {}", difficulty);
+        }
+
+        if (!line.hasOption("n")) {
+            logger.info("using default number of nodes: 100");
+            nodes = 100;
+        } else {
+            nodes = Integer.valueOf(line.getOptionValue("n"));
+            logger.info("using number of nodes: {}", nodes);
+        }
+
+        Matrix generated = Generator.generateTestData(difficulty, nodes, inFile);
+        OutputWriter writer = new OutputWriter(outFile);
+
+        FloydWarshall.calcShortestPaths(generated);
+        List<Matrix> integrals = FloydWarshall.extractIntegralMatrices(generated);
+        integrals.forEach(FloydWarshall::calcSeparationRate);
+        integrals.forEach(KruskalMST::calcMST);
+
+        writer.writeResults(integrals, true);
     }
 
     private static void displayHelpAndExit() {

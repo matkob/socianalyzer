@@ -1,7 +1,5 @@
 package com.mkobiers.socianalyzer.model;
 
-import java.util.Objects;
-
 public class MatrixAddress {
     private final int address;
     private final String person1;
@@ -9,11 +7,11 @@ public class MatrixAddress {
 
     MatrixAddress(String person1, String person2) {
         if (person1.compareTo(person2) >= 0) {
-            this.address = Objects.hash(person1, person2);
+            this.address = (person1 + person2).hashCode();
             this.person1 = person1;
             this.person2 = person2;
         } else {
-            this.address = Objects.hash(person2, person1);
+            this.address = (person2 + person1).hashCode();
             this.person1 = person2;
             this.person2 = person1;
         }
