@@ -31,7 +31,7 @@ public class SocianalyzerApp {
         options.addOption(new Option("i", "input", true, "input file"));
         options.addOption(new Option("o", "output", true, "output file"));
         options.addOption(new Option("p", "people", true, "(max) number of people in network (must be at least 2)"));
-        options.addOption(new Option("d", "difficulty", true, "difficulty of auto-generated case [0-100]"));
+        options.addOption(new Option("d", "difficulty", true, "difficulty of auto-generated case [1-100]"));
         options.addOption(new Option("h", "help", false, "displays this message"));
 
         CommandLineParser parser = new DefaultParser();

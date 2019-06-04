@@ -1,0 +1,4 @@
+jas grzes 2
+malgosia ania 4
+malgosia grzes 3
+grzes ania 9
